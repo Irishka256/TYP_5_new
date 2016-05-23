@@ -151,31 +151,31 @@ int LL1::LL_1() {
 			case AddTriadeMod:
 				TheCode.AddTriade(OMod, nullptr, nullptr);
 				break;
-			case AddTriadeEq:
-				TheCode.AddTriade(OEq, nullptr, nullptr);
+			case AddTriadeRavno:
+				TheCode.AddTriade(ORavno, nullptr, nullptr);
 				break;
-			case AddTriadeNeq:
-				TheCode.AddTriade(ONeq, nullptr, nullptr);
+			case AddTriadeNeRavno:
+				TheCode.AddTriade(ONeRavno, nullptr, nullptr);
 				break;
-			case AddTriadeLt:
-				TheCode.AddTriade(OLt, nullptr, nullptr);
+			case AddTriadeMenshe:
+				TheCode.AddTriade(OMenshe, nullptr, nullptr);
 				break;
-			case AddTriadeGt:
-				TheCode.AddTriade(OGt, nullptr, nullptr);
+			case AddTriadeBolshe:
+				TheCode.AddTriade(OBolshe, nullptr, nullptr);
 				break;
-			case AddTriadeLteq:
-				TheCode.AddTriade(OLteq, nullptr, nullptr);
+			case AddTriadeMensheRavno:
+				TheCode.AddTriade(OMensheRavno, nullptr, nullptr);
 				break;
-			case AddTriadeGteq:
-				TheCode.AddTriade(OGteq, nullptr, nullptr);
+			case AddTriadeBolsheRavno:
+				TheCode.AddTriade(OBolsheRavno, nullptr, nullptr);
 				break;
-			case AddTriadeSet:
-				TheCode.AddTriade(OSet, nullptr, nullptr);
+			case AddTriadePris:
+				TheCode.AddTriade(OPris, nullptr, nullptr);
 				break;
-			case AddTriadeGoto:
+			case AddTriadeGoto: /////////////////////////////////////////////для иф
 				TheCode.AddTriade(OGoto, nullptr, nullptr);
 				break;
-			case AddTriadeIf:
+			case AddTriadeIf:////////////////////////////////////////////////для иф
 				TheCode.AddTriade(OIf, nullptr, nullptr);
 				break;
 			case AddTriadeOffset:
@@ -201,7 +201,7 @@ int LL1::LL_1() {
 			case PushLastTriade:
 				m2[z2++] = new SupData(TheCode.count - 1, true);
 				break;
-			case PushNextTriade:
+			case PushNextTriade://////////////////////////////////////////////////для иф
 				m2[z2++] = new SupData(TheCode.count, true);
 				break;
 			case SemPushLex:
@@ -219,6 +219,11 @@ int LL1::LL_1() {
 				break;
 			case SemGetType:
 				if (pt->sem_get_type(m2[z2 - 1]->AsString, sc->GetStroka()) == false){
+					TheCode.error = true;
+				}
+				break;
+			case SemVarDeclared://///////////////////////////////////////////////////////////////////////////////////
+				if (pt->sem_var_declared(m2[z2 - 1]->AsString, sc->GetStroka()) == false){
 					TheCode.error = true;
 				}
 				break;
@@ -259,28 +264,32 @@ int LL1::LL_1() {
 				m2[z2++] = new SupData((int)0);
 				break;
 			case SemIndexVyrEnd:
-				if (pt->sem_arr_rank(m2[z2 - 3]->AsTreeNode->n->id, m2[z2 - 1]->AsInt, sc->GetStroka())){
-					TheCode.error = true;
-				}
-				if (m2[z2 - 1]->AsInt > 0){
-					z2--;
-					m[z++] = PushLastTriade;
-					m[z++] = FormTriadeArg1;
-					m[z++] = FormTriadeArg2;
-					m[z++] = AddTriadeOffset;
-				}
-				else{
-					z2--;
-					z2--;
+				if (TheCode.error == false){ ///////////////////////////////чтобы не вылетал с исключением на массивах
+					if (pt->sem_arr_rank(m2[z2 - 3]->AsTreeNode->n->id, m2[z2 - 1]->AsInt, sc->GetStroka())){
+						TheCode.error = true;
+					}
+					if (m2[z2 - 1]->AsInt > 0){
+						z2--;
+						m[z++] = PushLastTriade;
+						m[z++] = FormTriadeArg1;
+						m[z++] = FormTriadeArg2;
+						m[z++] = AddTriadeOffset;
+					}
+					else{
+						z2--;
+						z2--;
+					}
 				}
 				break;
 			case SemIndexVyrStep:
 			{
-				int multer = 1;
-				for (int i = (m2[z2 - 2]->AsInt); i<(m2[z2 - 4]->AsTreeNode->n->N - 1); i++){
-					multer *= m2[z2 - 4]->AsTreeNode->n->hg[i];
-			}
-				TheCode.AddTriade(OMul, m2[z2 - 1], new SupData(multer));
+				if (TheCode.error == false){ ///////////////////////////////чтобы не вылетал с исключением на массивах
+					int multer = 1;
+					for (int i = (m2[z2 - 2]->AsInt); i<(m2[z2 - 4]->AsTreeNode->n->N - 1); i++){
+						multer *= m2[z2 - 4]->AsTreeNode->n->hg[i];
+					}
+					TheCode.AddTriade(OMul, m2[z2 - 1], new SupData(multer));
+				}
 			}
 				if (m2[z2 - 2]->AsInt > 0){
 					TheCode.AddTriade(OPlus, m2[z2 - 3], new SupData(TheCode.count - 1, true));
@@ -289,7 +298,7 @@ int LL1::LL_1() {
 				m2[z2 - 3] = new SupData(TheCode.count - 1, true);
 				z2--;
 				break;
-			case MagazCastling:
+			case MagazCastling:   //////////////////////////////////МБ для иф????????????????????????7
 				bufer.Copy(m2[z2 - 1]);
 				m2[z2 - 1]->Copy(m2[z2 - 2]);
 				m2[z2 - 2]->Copy(&bufer);
@@ -370,7 +379,7 @@ int LL1::LL_1() {
 					m[z++] = PushLastTriade;
 					m[z++] = FormTriadeArg1;
 					m[z++] = FormTriadeArg2;
-					m[z++] = AddTriadeSet;
+					m[z++] = AddTriadePris;
 					m[z++] = NVyr;
 					m[z++] = TPris;
 				}
@@ -466,8 +475,10 @@ int LL1::LL_1() {
 			case NOper1:
 				if (type == TIdent){
 					m[z++] = NPris;
+					
 					m[z++] = TIdent;
 					m[z++] = SemLex2Tree;
+					m[z++] = SemVarDeclared; ///////////////////////////тут вставила, чтобы когда была переменная необъявлена, выводилась ошибка
 					m[z++] = SemPushLex;
 				}
 				else if (type == TIf){
@@ -499,19 +510,21 @@ int LL1::LL_1() {
 				if (type == TIdent){
 					m[z++] = NElemSpis;
 					m[z++] = TIdent;
+					//m[z++] = SemVarDeclared;
 					m[z++] = SemGetType;
 				}
 				else if (type == TPris){
 					m[z++] = FormTriadeArg1;
 					m[z++] = FormTriadeArg2;
-					m[z++] = AddTriadeSet;
+					m[z++] = AddTriadePris;
 					m[z++] = NVyr;
+					//m[z++] = SemVarDeclared;
 					m[z++] = TPris;
 				}
 				else if (type == TLKvScob){
 					m[z++] = FormTriadeArg1;
 					m[z++] = FormTriadeArg2;
-					m[z++] = AddTriadeSet;
+					m[z++] = AddTriadePris;
 					m[z++] = NVyr;
 					m[z++] = TPris;
 					m[z++] = SemIndexVyrEnd;
@@ -584,6 +597,7 @@ int LL1::LL_1() {
 				}
 				else if (type == TMul || type == TDiv || type == TMod || type == TMenshe ||
 					type == TMensheRavno || type == TBolshe || type == TBolsheRavno || type == TRavno || type == TNeRavno ||
+
 					type == TTochkaZap || type == TZap || type == TRSkob || type == TRKvScob){
 					epsilon();
 				}break;
@@ -673,7 +687,7 @@ int LL1::LL_1() {
 					m[z++] = PushLastTriade;
 					m[z++] = FormTriadeArg2;
 					m[z++] = FormTriadeArg1;
-					m[z++] = AddTriadeLt;
+					m[z++] = AddTriadeMenshe;
 					m[z++] = NVyr4;
 					m[z++] = TMenshe;
 				}
@@ -681,7 +695,7 @@ int LL1::LL_1() {
 					m[z++] = PushLastTriade;
 					m[z++] = FormTriadeArg2;
 					m[z++] = FormTriadeArg1;
-					m[z++] = AddTriadeLteq;
+					m[z++] = AddTriadeMensheRavno;
 					m[z++] = NVyr4;
 					m[z++] = TMensheRavno;
 				}
@@ -689,7 +703,7 @@ int LL1::LL_1() {
 					m[z++] = PushLastTriade;
 					m[z++] = FormTriadeArg2;
 					m[z++] = FormTriadeArg1;
-					m[z++] = AddTriadeGt;
+					m[z++] = AddTriadeBolshe;
 					m[z++] = NVyr4;
 					m[z++] = TBolshe;
 				}
@@ -697,7 +711,7 @@ int LL1::LL_1() {
 					m[z++] = PushLastTriade;
 					m[z++] = FormTriadeArg2;
 					m[z++] = FormTriadeArg1;
-					m[z++] = AddTriadeGteq;
+					m[z++] = AddTriadeBolsheRavno;
 					m[z++] = NVyr4;
 					m[z++] = TBolsheRavno;
 				}
@@ -734,7 +748,7 @@ int LL1::LL_1() {
 					m[z++] = PushLastTriade;
 					m[z++] = FormTriadeArg2;
 					m[z++] = FormTriadeArg1;
-					m[z++] = AddTriadeEq;
+					m[z++] = AddTriadeRavno;
 					m[z++] = NVyr5;
 					m[z++] = TRavno;
 				}
@@ -742,7 +756,7 @@ int LL1::LL_1() {
 					m[z++] = PushLastTriade;
 					m[z++] = FormTriadeArg2;
 					m[z++] = FormTriadeArg1;
-					m[z++] = AddTriadeNeq;
+					m[z++] = AddTriadeNeRavno;
 					m[z++] = NVyr5;
 					m[z++] = TNeRavno;
 				}

@@ -19,53 +19,55 @@ typedef char TypeLex[MAX_LEX]; // лексема
 
 
 // Семантические подпрограммы
-#define SemPushLex					400001
-#define SemPopLex					400002
-#define SemGetType					400003
-#define SemAddVar					400004
-#define SemPushTree					400005
-#define SemTreeNewBranch			400006
-#define SemTreeRestoreBranch		400007
-#define SemOverride					400008
+#define SemPushLex					400001 
+#define SemPopLex					400002 
+#define SemGetType					400003 
+#define SemAddVar					400004 
+#define SemPushTree					400005 
+#define SemTreeNewBranch			400006 
+#define SemTreeRestoreBranch		400007 //восстановление ветви
+#define SemOverride					400008 
 #define SemAddType					400009
-#define SemLex2Tree					400010
-#define SemSetDim					400011
-#define SemLex2Int					400012
+#define SemLex2Tree					400010 
+#define SemSetDim					400011 
+#define SemLex2Int					400012 
 #define SemIndexVyrBegin			410001
 #define SemIndexVyrEnd				410002
 #define SemIndexVyrStep				410003
-#define SemPushInt					420001
+#define SemPushInt					420001 
 #define SemPushDouble				420002
+
+#define SemVarDeclared				420013
 
 // Команды добавления триад
 #define AddTriadeNop				300000
 #define AddTriadePlus				300001
 #define AddTriadeMinus				300002
-#define AddTriadeMul				300004
+#define AddTriadeMul				300004 
 #define AddTriadeDiv				300005
 #define AddTriadeMod				300006
-#define AddTriadeEq					300007
-#define AddTriadeNeq				300008
-#define AddTriadeLt					300009
-#define AddTriadeGt					300010
-#define AddTriadeLteq				300011
-#define AddTriadeGteq				300012
-#define AddTriadeSet				300013
-#define	AddTriadeIf					300014
-#define AddTriadeGoto				300015
+#define AddTriadeRavno				300007
+#define AddTriadeNeRavno			300008
+#define AddTriadeMenshe				300009
+#define AddTriadeBolshe				300010
+#define AddTriadeMensheRavno		300011
+#define AddTriadeBolsheRavno		300012
+#define AddTriadePris				300013
+#define	AddTriadeIf					300014   ///////////////////для иф
+#define AddTriadeGoto				300015   ///////////////////для иф
 #define AddTriadeOffset				300016
 #define AddTriadePlusPlus			300017
 #define AddTriadeMinusMinus			300018
 #define AddTriadeRet				310000
 
-#define FormTriadeArg1				310001
+#define FormTriadeArg1				310001 
 #define FormTriadeArg2				310002
 
-#define PushLastTriade				320000
-#define PushNextTriade				320001
+#define PushLastTriade				320000 
+#define PushNextTriade				320001 /////////////////////////////для иф
 
 
-#define MagazCastling				500001
+#define MagazCastling				500001 //////////////////////////////////МБ для иф????????????????????????7
 
 // Операции в триадах
 #define ONop	30000
@@ -74,13 +76,13 @@ typedef char TypeLex[MAX_LEX]; // лексема
 #define OMul	30004
 #define ODiv	30005
 #define OMod	30006
-#define OEq		30007
-#define ONeq	30008
-#define OLt		30009
-#define OGt		30010
-#define OLteq	30011
-#define OGteq	30012
-#define OSet	30013
+#define ORavno	30007
+#define ONeRavno 30008
+#define OMenshe	30009
+#define OBolshe	30010
+#define OMensheRavno	30011
+#define OBolsheRavno	30012
+#define OPris	30013
 #define	OIf		30014
 #define OGoto	30015
 #define OOffset	30016

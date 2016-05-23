@@ -65,26 +65,7 @@ struct SupData{
 			break;
 		}
 	}
-	bool Equals(SupData *SD){
-		if (SD->type != this->type) return false;
-		switch (type){
-		case 1:
-			return (SD->AsInt == this->AsInt);
-			break;
-		case 2:
-			return (SD->AsDouble == this->AsDouble);
-			break;
-		case 3:
-			return (strcmp(SD->AsString, this->AsString) == 0);
-			break;
-		case 4:
-			return (SD->AsTreeNode == this->AsTreeNode);
-			break;
-		case 5:
-			return (SD->AsInt == this->AsInt);
-			break;
-		}
-	}
+
 	void Print(){
 		switch (type){
 		case 1:
@@ -134,269 +115,7 @@ struct Triade{
 	void SetArg2(SupData *A){
 		Arg2.Copy(A);
 	}
-	bool Equals(Triade *T){
-		if (T->Operation != this->Operation) return false;
-		switch (Operation){
-		case ONop:
-			return true;
-			break;
-		case OPlus:
-			if (this->Arg1.Equals(&(T->Arg1)) && this->Arg2.Equals(&(T->Arg2))) return true;
-			if (this->Arg1.Equals(&(T->Arg2)) && this->Arg2.Equals(&(T->Arg1))) return true;
-			return false;
-			break;
-		case OMinus:
-			if (this->Arg1.Equals(&(T->Arg1)) && this->Arg2.Equals(&(T->Arg2))) return true;
-			return false;
-			break;
-		case OMul:
-			if (this->Arg1.Equals(&(T->Arg1)) && this->Arg2.Equals(&(T->Arg2))) return true;
-			if (this->Arg1.Equals(&(T->Arg2)) && this->Arg2.Equals(&(T->Arg1))) return true;
-			return false;
-			break;
-		case ODiv:
-			if (this->Arg1.Equals(&(T->Arg1)) && this->Arg2.Equals(&(T->Arg2))) return true;
-			return false;
-			break;
-		case OMod:
-			if (this->Arg1.Equals(&(T->Arg1)) && this->Arg2.Equals(&(T->Arg2))) return true;
-			return false;
-			break;
-		case OEq:
-			if (this->Arg1.Equals(&(T->Arg1)) && this->Arg2.Equals(&(T->Arg2))) return true;
-			if (this->Arg1.Equals(&(T->Arg2)) && this->Arg2.Equals(&(T->Arg1))) return true;
-			return false;
-			break;
-		case ONeq:
-			if (this->Arg1.Equals(&(T->Arg1)) && this->Arg2.Equals(&(T->Arg2))) return true;
-			if (this->Arg1.Equals(&(T->Arg2)) && this->Arg2.Equals(&(T->Arg1))) return true;
-			return false;
-			break;
-		case OLt:
-			if (this->Arg1.Equals(&(T->Arg1)) && this->Arg2.Equals(&(T->Arg2))) return true;
-			return false;
-			break;
-		case OGt:
-			if (this->Arg1.Equals(&(T->Arg1)) && this->Arg2.Equals(&(T->Arg2))) return true;
-			return false;
-			break;
-		case OLteq:
-			if (this->Arg1.Equals(&(T->Arg1)) && this->Arg2.Equals(&(T->Arg2))) return true;
-			return false;
-			break;
-		case OGteq:
-			if (this->Arg1.Equals(&(T->Arg1)) && this->Arg2.Equals(&(T->Arg2))) return true;
-			return false;
-			break;
-		case OSet:
-			if (this->Arg1.Equals(&(T->Arg1)) && this->Arg2.Equals(&(T->Arg2))) return true;
-			return false;
-			break;
-		case OIf:
-			return false;
-			break;
-		case OGoto:
-			return false;
-			break;
-		case OOffset:
-			if (this->Arg1.Equals(&(T->Arg1)) && this->Arg2.Equals(&(T->Arg2))) return true;
-			return false;
-			break;
-		case OPlusPlus:
-			return false;
-			break;
-		case OMinusMinus:
-			return false;
-			break;
-		case ORet:
-			return false;
-			break;
-		}
-	}
-	int ResultType(){
-		switch (Operation){
-		case ONop:
-			return -1;
-			break;
-		case OPlus:
-			if (Arg1.type == 1 && Arg2.type == 1) return 1;
-			if (Arg1.type == 1 && Arg2.type == 2) return 2;
-			if (Arg1.type == 2 && Arg2.type == 1) return 2;
-			if (Arg1.type == 2 && Arg2.type == 2) return 2;
-			return -1;
-			break;
-		case OMinus:
-			if (Arg1.type == 1 && Arg2.type == 1) return 1;
-			if (Arg1.type == 1 && Arg2.type == 2) return 2;
-			if (Arg1.type == 2 && Arg2.type == 1) return 2;
-			if (Arg1.type == 2 && Arg2.type == 2) return 2;
-			return -1;
-			break;
-		case OMul:
-			if (Arg1.type == 1 && Arg2.type == 1) return 1;
-			if (Arg1.type == 1 && Arg2.type == 2) return 2;
-			if (Arg1.type == 2 && Arg2.type == 1) return 2;
-			if (Arg1.type == 2 && Arg2.type == 2) return 2;
-			return -1;
-			break;
-		case ODiv:
-			if (Arg1.type == 1 && Arg2.type == 1) return 1;
-			if (Arg1.type == 1 && Arg2.type == 2) return 2;
-			if (Arg1.type == 2 && Arg2.type == 1) return 2;
-			if (Arg1.type == 2 && Arg2.type == 2) return 2;
-			return -1;
-			break;
-		case OMod:
-			if (Arg1.type == 1 && Arg2.type == 1) return 1;
-			if (Arg1.type == 1 && Arg2.type == 2) return 2;
-			if (Arg1.type == 2 && Arg2.type == 1) return 2;
-			if (Arg1.type == 2 && Arg2.type == 2) return 2;
-			return -1;
-			break;
-		case OEq:
-			return 1;
-			break;
-		case ONeq:
-			return 1;
-			break;
-		case OLt:
-			return 1;
-			break;
-		case OGt:
-			return 1;
-			break;
-		case OLteq:
-			return 1;
-			break;
-		case OGteq:
-			return 1;
-			break;
-		case OSet:
-			if (Arg1.type == 1 || Arg2.type == 1) return 1;
-			if (Arg1.type == 2 || Arg2.type == 2) return 2;
-			break;
-		case OIf:
-			return -1;
-			break;
-		case OGoto:
-			return -1;
-			break;
-		case OOffset:
-			return -1;
-			break;
-		case OPlusPlus:
-			return -1;
-			break;
-		case OMinusMinus:
-			return -1;
-			break;
-		case ORet:
-			return -1;
-			break;
-		}
-	}
-	SupData *PerformOperation(){
-		SupData *Result = new SupData();
-		Result->type = ResultType();
-
-		switch (Operation){
-		case ONop:
-			return nullptr;
-			break;
-		case OPlus:
-			if (Arg1.type == 1 && Arg2.type == 1) Result->AsInt = (Arg1.AsInt + Arg2.AsInt);
-			else if (Arg1.type == 1 && Arg2.type == 2) Result->AsDouble = (Arg1.AsInt + Arg2.AsDouble);
-			else if (Arg1.type == 2 && Arg2.type == 1) Result->AsDouble = (Arg1.AsDouble + Arg2.AsInt);
-			else if (Arg1.type == 2 && Arg2.type == 2) Result->AsDouble = (Arg1.AsDouble + Arg2.AsDouble);
-			break;
-		case OMinus:
-			if (Arg1.type == 1 && Arg2.type == 1) Result->AsInt = (Arg1.AsInt - Arg2.AsInt);
-			else if (Arg1.type == 1 && Arg2.type == 2) Result->AsDouble = (Arg1.AsInt - Arg2.AsDouble);
-			else if (Arg1.type == 2 && Arg2.type == 1) Result->AsDouble = (Arg1.AsDouble - Arg2.AsInt);
-			else if (Arg1.type == 2 && Arg2.type == 2) Result->AsDouble = (Arg1.AsDouble - Arg2.AsDouble);
-			break;
-		case OMul:
-			if (Arg1.type == 1 && Arg2.type == 1) Result->AsInt = (Arg1.AsInt * Arg2.AsInt);
-			else if (Arg1.type == 1 && Arg2.type == 2) Result->AsDouble = (Arg1.AsInt * Arg2.AsDouble);
-			else if (Arg1.type == 2 && Arg2.type == 1) Result->AsDouble = (Arg1.AsDouble * Arg2.AsInt);
-			else if (Arg1.type == 2 && Arg2.type == 2) Result->AsDouble = (Arg1.AsDouble * Arg2.AsDouble);
-			break;
-		case ODiv:
-			if (Arg1.type == 1 && Arg2.type == 1) Result->AsInt = (Arg1.AsInt / Arg2.AsInt);
-			else if (Arg1.type == 1 && Arg2.type == 2) Result->AsDouble = (Arg1.AsInt / Arg2.AsDouble);
-			else if (Arg1.type == 2 && Arg2.type == 1) Result->AsDouble = (Arg1.AsDouble / Arg2.AsInt);
-			else if (Arg1.type == 2 && Arg2.type == 2) Result->AsDouble = (Arg1.AsDouble / Arg2.AsDouble);
-			break;
-		case OMod:
-			if (Arg1.type == 1 && Arg2.type == 1) Result->AsInt = (Arg1.AsInt % Arg2.AsInt);
-			else if (Arg1.type == 1 && Arg2.type == 2) Result->AsDouble = (Arg1.AsInt % (int)Arg2.AsDouble);
-			else if (Arg1.type == 2 && Arg2.type == 1) Result->AsDouble = ((int)Arg1.AsDouble % Arg2.AsInt);
-			else if (Arg1.type == 2 && Arg2.type == 2) Result->AsDouble = ((int)Arg1.AsDouble % (int)Arg2.AsDouble);
-			break;
-		case OEq:
-			if (Arg1.type == 1 && Arg2.type == 1) Result->AsInt = (Arg1.AsInt == Arg2.AsInt);
-			else if (Arg1.type == 1 && Arg2.type == 2) Result->AsInt = (Arg1.AsInt == Arg2.AsDouble);
-			else if (Arg1.type == 2 && Arg2.type == 1) Result->AsInt = (Arg1.AsDouble == Arg2.AsInt);
-			else if (Arg1.type == 2 && Arg2.type == 2) Result->AsInt = (Arg1.AsDouble == Arg2.AsDouble);
-			break;
-		case ONeq:
-			if (Arg1.type == 1 && Arg2.type == 1) Result->AsInt = (Arg1.AsInt != Arg2.AsInt);
-			else if (Arg1.type == 1 && Arg2.type == 2) Result->AsInt = (Arg1.AsInt != Arg2.AsDouble);
-			else if (Arg1.type == 2 && Arg2.type == 1) Result->AsInt = (Arg1.AsDouble != Arg2.AsInt);
-			else if (Arg1.type == 2 && Arg2.type == 2) Result->AsInt = (Arg1.AsDouble != Arg2.AsDouble);
-			break;
-		case OLt:
-			if (Arg1.type == 1 && Arg2.type == 1) Result->AsInt = (Arg1.AsInt < Arg2.AsInt);
-			else if (Arg1.type == 1 && Arg2.type == 2) Result->AsInt = (Arg1.AsInt < Arg2.AsDouble);
-			else if (Arg1.type == 2 && Arg2.type == 1) Result->AsInt = (Arg1.AsDouble < Arg2.AsInt);
-			else if (Arg1.type == 2 && Arg2.type == 2) Result->AsInt = (Arg1.AsDouble < Arg2.AsDouble);
-			break;
-		case OGt:
-			if (Arg1.type == 1 && Arg2.type == 1) Result->AsInt = (Arg1.AsInt > Arg2.AsInt);
-			else if (Arg1.type == 1 && Arg2.type == 2) Result->AsInt = (Arg1.AsInt > Arg2.AsDouble);
-			else if (Arg1.type == 2 && Arg2.type == 1) Result->AsInt = (Arg1.AsDouble > Arg2.AsInt);
-			else if (Arg1.type == 2 && Arg2.type == 2) Result->AsInt = (Arg1.AsDouble > Arg2.AsDouble);
-			break;
-		case OLteq:
-			if (Arg1.type == 1 && Arg2.type == 1) Result->AsInt = (Arg1.AsInt <= Arg2.AsInt);
-			else if (Arg1.type == 1 && Arg2.type == 2) Result->AsInt = (Arg1.AsInt <= Arg2.AsDouble);
-			else if (Arg1.type == 2 && Arg2.type == 1) Result->AsInt = (Arg1.AsDouble <= Arg2.AsInt);
-			else if (Arg1.type == 2 && Arg2.type == 2) Result->AsInt = (Arg1.AsDouble <= Arg2.AsDouble);
-			break;
-		case OGteq:
-			if (Arg1.type == 1 && Arg2.type == 1) Result->AsInt = (Arg1.AsInt >= Arg2.AsInt);
-			else if (Arg1.type == 1 && Arg2.type == 2) Result->AsInt = (Arg1.AsInt >= Arg2.AsDouble);
-			else if (Arg1.type == 2 && Arg2.type == 1) Result->AsInt = (Arg1.AsDouble >= Arg2.AsInt);
-			else if (Arg1.type == 2 && Arg2.type == 2) Result->AsInt = (Arg1.AsDouble >= Arg2.AsDouble);
-			break;
-		case OSet:
-			if (Arg1.type == 1) Result->AsInt = Arg1.AsInt;
-			else if (Arg1.type == 2) Result->AsDouble = Arg1.AsDouble;
-			else if (Arg2.type == 1) Result->AsInt = Arg2.AsInt;
-			else if (Arg2.type == 2) Result->AsDouble = Arg2.AsDouble;
-			break;
-		case OIf:
-			return nullptr;
-			break;
-		case OGoto:
-			return nullptr;
-			break;
-		case OOffset:
-			return nullptr;
-			break;
-		case OPlusPlus:
-			return nullptr;
-			break;
-		case OMinusMinus:
-			return nullptr;
-			break;
-		case ORet:
-			return nullptr;
-			break;
-		}
-
-		return Result;
-	}
+	
 	void Print(){
 		switch (Operation){
 		case ONop:
@@ -417,25 +136,25 @@ struct Triade{
 		case OMod:
 			std::cout << "%";
 			break;
-		case OEq:
+		case ORavno:
 			std::cout << "==";
 			break;
-		case ONeq:
+		case ONeRavno:
 			std::cout << "!=";
 			break;
-		case OLt:
+		case OMenshe:
 			std::cout << "<";
 			break;
-		case OGt:
+		case OBolshe:
 			std::cout << ">";
 			break;
-		case OLteq:
+		case OMensheRavno:
 			std::cout << "<=";
 			break;
-		case OGteq:
+		case OBolsheRavno:
 			std::cout << ">=";
 			break;
-		case OSet:
+		case OPris:
 			std::cout << "=";
 			break;
 		case OIf:
@@ -464,22 +183,6 @@ struct Triade{
 		std::cout << std::endl;
 	}
 
-	void ReplaceNumbers(int A, int B){
-		if (A == B) return;
-		int min = A, max = B;
-		if (A > B){
-			min = B;
-			max = A;
-		}
-
-		//if (Arg1.type == 5 && Arg1.AsInt == min) Arg1.AsInt = max;
-		if (Arg1.type == 5 && Arg1.AsInt == max) Arg1.AsInt = min;
-		else if (Arg1.type == 5 && Arg1.AsInt >= min &&  Arg1.AsInt <= max) Arg1.AsInt++;
-
-		//if (Arg2.type == 5 && Arg2.AsInt == min) Arg2.AsInt = max;
-		if (Arg2.type == 5 && Arg2.AsInt == max) Arg2.AsInt = min;
-		else if (Arg2.type == 5 && Arg2.AsInt >= min &&  Arg2.AsInt <= max) Arg2.AsInt++;
-	}
 };
 
 class Code{
@@ -500,18 +203,7 @@ public:
 	void AddTriade(int O, SupData *A1, SupData *A2){
 		AddTriade(new Triade(O, A1, A2));
 	}
-	void SetLast(SupData *A){
-		for (int i = count - 1; i >= 0; i--){
-			if (Triades[i].Arg2.type == -1){
-				Triades[i].Arg2.Copy(A);
-				break;
-			}
-			else if (Triades[i].Arg1.type == -1){
-				Triades[i].Arg1.Copy(A);
-				break;
-			}
-		}
-	}
+
 	void SetLastArg1(SupData *A){
 		for (int i = count - 1; i >= 0; i--){
 			if (Triades[i].Arg1.type == -1){
@@ -534,10 +226,5 @@ public:
 			Triades[i].Print();
 		}
 	}
-
-	void ReplaceNumbers(int A, int B){
-		for (int i = 0; i<count; i++){
-			Triades[i].ReplaceNumbers(A, B);
-		}
-	}
+	
 };

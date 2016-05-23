@@ -51,7 +51,7 @@ bool tree::sosed(char *id){
 }
 
 void tree::print(void){
-	std::cout << "вершина с данными " << (n->id) << " (" << (n->type);
+	std::cout << "Вершина с данными " << (n->id) << " (" << (n->type);
 	for (int i = 0; i<n->N; i++){
 		std::cout << "[" << (n->hg[i]) << "]";
 	}
@@ -63,15 +63,16 @@ void tree::print(void){
 	if (right != NULL)right->print();
 }
 
+
 bool tree::sem_get_type(char *id, int line){
 	tree *fnup = NULL;
 	fnup = this->find_up(id);
 	if (fnup == NULL){
-		std::cout << "идентификатор не объявлен: " << id << " в строке " << line << std::endl;
+		std::cout << "Идентификатор не объявлен: " << id << " в строке " << line << std::endl;
 		return false;
 	}
 	else if (fnup->n->is_type == false){
-		std::cout << "не является типом: " << id << " в строке " << line << std::endl;
+		std::cout << "Не является типом:: " << id << " в строке " << line << std::endl;
 		return false;
 	}
 	return true;
@@ -79,7 +80,7 @@ bool tree::sem_get_type(char *id, int line){
 
 bool tree::sem_override(char *id, int line){
 	if (this->sosed(id)){
-		std::cout << "переопределение: " << id << " в строке " << line << std::endl;
+		std::cout << "Переопределение: " << id << " в строке " << line << std::endl;
 		return true;
 	}
 	return false;
@@ -88,11 +89,11 @@ bool tree::sem_override(char *id, int line){
 bool tree::sem_var_declared(char *id, int line){
 	tree *fnup = this->find_up(id);
 	if (fnup == NULL){
-		std::cout << "идентификатор не объявлен: " << id << " в строке " << line << std::endl;
+		std::cout << "Идентификатор не объявлен: " << id << " в строке " << line << std::endl;
 		return false;
 	}
 	else if (fnup->n->is_type){
-		std::cout << "не является переменной: " << id << " в строке " << line << std::endl;
+		std::cout << "Идентификатор не объявлен: " << id << " в строке " << line << std::endl;
 		return false;
 	}
 	return true;
@@ -101,7 +102,7 @@ bool tree::sem_var_declared(char *id, int line){
 bool tree::sem_arr_rank(char *id, int r, int line){
 	tree *nd = this->find_up(id);
 	if (nd != NULL && r != nd->n->N){
-		std::cout << "количество измерений массива не совпадает в строке " << line << std::endl;
+		std::cout << "Количество измерений массива не совпадает в строке " << line << std::endl;
 		return true;
 	}
 	return false;
@@ -147,7 +148,7 @@ void tree::sem_set_dim(int hg, int line){
 		this->n->N++;
 	}
 	else{
-		std::cout << "количество измерений массива превышает " << MAX_N << " в строке " << line << std::endl;
+		std::cout << "Количество измерений массива превышает " << MAX_N << " в строке " << line << std::endl;
 	}
 }
 

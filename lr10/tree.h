@@ -55,7 +55,7 @@ public:
 	void print(void);
 
 	bool sem_get_type(char *id, int line);
-	bool sem_override(char *id, int line);
+	bool sem_override(char *id, int line); //проверка на переобпределение
 	bool sem_var_declared(char *id, int line);
 	bool sem_arr_rank(char *id, int r, int line);
 	int sem_result(int t1, int t2, int oper);
